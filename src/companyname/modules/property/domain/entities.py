@@ -1,27 +1,30 @@
 
 
-import dataclasses
 import datetime
+import uuid
 from seedwork.domain.entities import RootAggregation
 from modules.property.domain.value_objects import Seller
 from seedwork.domain.value_objects import Money
-from dataclasses import field
+from dataclasses import dataclass, field
 from modules.property.domain.events import PropertyCreated
 
 
-@dataclasses
+@dataclass
 class Property(RootAggregation):
-    seller: Seller
+    id_property: uuid.UUID = field(hash=True, default=uuid.uuid4())
+    seller: str = field(default_factory=str)
     name: str = field(default_factory=str)
-    price: Money
-    created_at: datetime
+    price: Money = field(default_factory=Money)
+    created_at: datetime = field(default_factory=datetime.datetime.now)
 
-    def create_property(self, name, price, currency, seller):
-        self.name = name
-        self.price = Money(amount=price, currency=currency)
-        self.seller = Seller(seller)
+    def create_property(self, property : "Property"):
+        self.name = property.name
+        self.price = Money(amount=property.price.amount, currency=property.price.currency)
+        self.seller = property.seller
         self.created_at = datetime.datetime.now()
-        return self
     
-    def add_event(self, event: PropertyCreated):
-        return super().add_event(event)
+        self.add_event(PropertyCreated(
+            name=self.name,
+            price=self.price,
+            currency=self.price.currency,
+            seller=str(self.seller)))

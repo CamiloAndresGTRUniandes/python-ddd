@@ -19,3 +19,7 @@ def broker_rabbit_user():
 def broker_rabbit_password():
     return os.getenv('RABBITMQ_PASS', default='LosAndes1234')
 
+def database_connection_string():
+    return f"postgresql://{os.environ.get('DB_USER', default='postgres')}:{os.environ.get('DB_PASSWORD', default='LosAndes1234')}@{os.environ.get('DB_HOST', default='127.0.0.1')}:{os.environ.get('DB_PORT', default='5432')}/{os.environ.get('DB_NAME', default='properties')}"
+
+

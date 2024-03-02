@@ -7,7 +7,7 @@ class DomainException(Exception):
     ...
 
 class IdShouldBeInmutableExcepcion(DomainException):
-    def __init__(self, mensaje='El identificador debe ser inmutable'):
+    def __init__(self, mensaje='Identifier should be inmutable'):
         self.__mensaje = mensaje
     def __str__(self):
         return str(self.__mensaje)

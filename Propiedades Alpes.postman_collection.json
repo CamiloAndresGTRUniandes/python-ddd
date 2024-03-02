@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "390e85e8-4528-4f3e-8074-470888236def",
+		"name": "Propiedades Alpes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14097063",
+		"_collection_link": "https://grey-flare-102956.postman.co/workspace/Team-Workspace~a2524b34-5d33-4520-8803-916c872fd10b/collection/14097063-390e85e8-4528-4f3e-8074-470888236def?action=share&source=collection_link&creator=14097063"
+	},
+	"item": [
+		{
+			"name": "HealthCheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5000/health"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Propeidad por Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5000/propiedad/{{id_propiedad}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Get propiedades",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5000/propiedad"
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePropiedad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"    postman.setEnvironmentVariable(\"id_propiedad\", body.id_propiedad);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Casa para crear\",\r\n    \"descripcion\": \"La casa de Elisa\",\r\n    \"direccion\":\"Calle falsa 123\",\r\n    \"precio\":10,\r\n    \"tipo\": 1,\r\n    \"estado\": 1,\r\n    \"habitaciones\":2,\r\n    \"banos\": 1,\r\n    \"estacionamientos\": 1,\r\n    \"superficie\": 1,\r\n    \"imagen\": \"http://enlace-a-una-imagen\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5000/propiedad/crear"
+			},
+			"response": []
+		}
+	]
+}

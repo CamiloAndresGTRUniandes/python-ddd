@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-
-from faker import Factory
-
+from seedwork.domain.factory import Factory
 from seedwork.domain.repositories import Mapper
 from seedwork.domain.entities import Entity
 from modules.property.domain.entities import Property

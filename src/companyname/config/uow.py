@@ -1,12 +1,12 @@
 from config.db import db
-from seedwork.infraestructura.uow import UnidadTrabajo, Batch
+from seedwork.infrastructure.uow import UnitOfWork, Batch
 
-class UnidadTrabajoSQLAlchemy(UnidadTrabajo):
+class UnitOfWorkSQLAlchemy(UnitOfWork):
 
     def __init__(self):
         self._batches: list[Batch] = list()
 
-    def __enter__(self) -> UnidadTrabajo:
+    def __enter__(self) -> UnitOfWork:
         return super().__enter__()
 
     def __exit__(self, *args):
@@ -33,7 +33,7 @@ class UnidadTrabajoSQLAlchemy(UnidadTrabajo):
 
             super().commit()
         except Exception as e:
-            print(f"ERROR DE UOW {e}")
+            print(f"UOW ERROR: {e}")
 
     def rollback(self, savepoint=None):
         if savepoint:

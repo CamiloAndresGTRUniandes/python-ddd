@@ -1,7 +1,5 @@
 
-
-
-from config import db
+from config.db import db
 
 
 Base = db.declarative_base()

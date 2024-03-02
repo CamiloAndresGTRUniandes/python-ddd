@@ -3,12 +3,12 @@ from modules.property.domain.factories import PropertiesFactory
 from modules.property.domain.repositories import PropertyRepository
 from modules.property.domain.entities import Property
 from seedwork.domain.entities import Entity
-from modules.property.infrastructure.mappers import PropertyMapper
+from .mappers import PropertyMapper
 
 
 class PropertiesPostgresSQLRepository(PropertyRepository):
     def __init__(self):
-        self.properties_factory : PropertiesFactory = PropertiesFactory
+        self.properties_factory : PropertiesFactory = PropertiesFactory()
 
     def add(self, property: Property):
         property_dto = self.properties_factory.create_object(property, PropertyMapper())
@@ -24,3 +24,10 @@ class PropertiesPostgresSQLRepository(PropertyRepository):
     
     def get_type(self) -> type:
         return Property.__class__
+    
+    def delete(self, id: int):
+        property_dto = db.session.query(Property).filter_by(id=id).first()
+        db.session.delete(property_dto)
+
+    def update(self, entity: Entity):
+        raise NotImplementedError

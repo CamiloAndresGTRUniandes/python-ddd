@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
-from entities import Entity
+from .entities import Entity
 
 class Repository(ABC):
     @abstractmethod

@@ -1,16 +1,12 @@
-
-
-
 from dataclasses import dataclass
 
-from seedwork.domain.events import DomainEvent
+from seedwork.domain.events import (DomainEvent)
 
 
 @dataclass
 class PropertyCreated(DomainEvent):
-    property_id: str
-    name: str
-    description: str
-    price: float
-    currency: str
-    seller : str
+    name: str = None
+    description: str = None
+    price: float = None
+    currency: str = None
+    seller : str = None
