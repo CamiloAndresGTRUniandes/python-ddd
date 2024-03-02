@@ -1,8 +1,10 @@
 import json
+from modules.property.application.queries.get_all_properties import GetAllProperties
 import seedwork.presentation.api as api
 from modules.property.application.mappers import MapperPropertyDTOJson
 from modules.property.application.commands.create_property import CreateProperty
 from seedwork.application.commands import execute_command
+from seedwork.application.queries import execute_query
 
 from flask import request, Response
 
@@ -29,3 +31,14 @@ def create_property():
         return Response('{}', status=202, mimetype='application/json')
     except DomainException as e:
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')
+    
+@bp.route('', methods=('GET',))
+def get_all_properties():
+    map_property = MapperPropertyDTOJson()
+    query_result = execute_query(GetAllProperties())
+    resultados = []
+    
+    for propiedad in query_result.resultado:
+        resultados.append(map_property.dto_a_externo(propiedad))
+    
+    return resultados

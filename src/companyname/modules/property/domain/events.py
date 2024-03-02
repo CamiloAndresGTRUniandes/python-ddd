@@ -10,3 +10,4 @@ class PropertyCreated(DomainEvent):
     price: float = None
     currency: str = None
     seller : str = None
+    created_at: str = None

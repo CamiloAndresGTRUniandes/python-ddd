@@ -25,6 +25,7 @@ class Property(RootAggregation):
     
         self.add_event(PropertyCreated(
             name=self.name,
-            price=self.price,
+            price=str(self.price.amount),
             currency=self.price.currency,
-            seller=str(self.seller)))
+            seller=str(self.seller),
+            created_at=str(datetime.datetime.now)))

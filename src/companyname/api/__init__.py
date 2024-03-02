@@ -13,9 +13,12 @@ def import_alchemy_models():
     import modules.property.infrastructure.dto
 
 def start_consumer():
-    # import threading
-    # import modules.property.infrastructure.consumer as property
-    ...
+    import threading
+    import modules.property.infrastructure.consumers as property
+
+    #threading.Thread(target=property.subscribe_to_commands).start()
+    threading.Thread(target=property.subscribe_to_events).start()
+
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)

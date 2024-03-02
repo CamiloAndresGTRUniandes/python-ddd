@@ -14,26 +14,35 @@ def unix_time_millis(dt):
     return (dt - epoch).total_seconds() * 1000.0
 
 class Dispatcher:
-    def publish_message(self, message, topic, schema):
-        client = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        producer = client.create_producer(topic, schema=schema)
-        producer.send(message)
-        client.close()
+    def _publish_message(self, message, topic, schema):
+        try:
+            client = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
+            producer = client.create_producer(topic, schema=AvroSchema(PropertyCreatedEvent))
+            producer.send(message)
+            client.close()
+        except Exception as ex:
+            print(f' ERROR: {ex}')
+            raise ex
 
     def publish_event(self, event, topic):
-        payload = PropertyCreatedPayload(
-            seller=event.seller,
-            price=event.price,
-            currency=event.currency
+        payload = PropertyCreatedPayload()
+        payload.create_event_payload(seller=event.seller,
+            name = event.name,
+            price=str(event.price),
+            currency=event.currency,
+            created_at=str(datetime.datetime.now())
         )
         integration_event = PropertyCreatedEvent(data= payload)
-        self.publish_message(integration_event, topic, AvroSchema(PropertyCreatedEvent))
+        self._publish_message(integration_event, topic, AvroSchema(PropertyCreatedEvent))
 
     def publish_command(self, command, topic):
         payload = CreatePropertyPayload(
             seller=command.seller,
             price=command.price,
-            currency=command.currency
+            currency=command.currency,
+            created_at=datetime.datetime.now(),
+            name = command.name
         )
         integration_command = CreatePropertyPayload(data=payload)
-        self.publish_message(integration_command, topic, AvroSchema(CreatePropertyCommand))
+        self._publish_message(integration_command, topic, AvroSchema(CreatePropertyCommand))
+    

@@ -2,6 +2,9 @@
 
 
 from dataclasses import dataclass
+from modules.property.infrastructure.views import PropertyView
+from seedwork.infrastructure.views import View
+from modules.property.domain.entities import Property
 
 from seedwork.domain.factory import Factory
 from seedwork.domain.repositories import Repository
@@ -17,3 +20,11 @@ class ReposirotyFactory(Factory):
             return PropertiesPostgresSQLRepository()
         else:
             raise FactoryException(f"Error {obj}")
+        
+@dataclass
+class ViewFactory(Factory):
+    def create_object(self, obj: type, mapeador: any = None) -> View:
+        if obj == Property:
+            return PropertyView()
+        else:
+            raise FactoryException(f'Not Implemented {obj}')

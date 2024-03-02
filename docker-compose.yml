@@ -37,7 +37,7 @@ services:
   redis-commander:
     image: "rediscommander/redis-commander:latest"
     environment:
-      - REDIS_HOSTS=local:redis:6379
+      - REDIS_HOSTS=local:redis_prop:6379
     ports:
       - "8081:8081"
     networks:
@@ -67,38 +67,38 @@ services:
       retries: 10
  
   # Servicios de PropiedadesAlpes
-  companyname:
-    container_name: companyname
-    hostname: companyname
-    restart: on-failure
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - PROPIEDADESALPES_ADDRESS=companyname
-      - DATABASE_HOST=postgres
-      - REDIS_HOST=redis_prop
-      - BROKER_HOST=broker
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USER=rabbitmq
-      - RABBITMQ_PASS=LosAndes1234
-      - DB_USER=postgres
-      - DB_PASSWORD=LosAndes1234
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=properties
-    ports:
-      - "5000:5000"
-    networks:
-      - pulsar
-    depends_on:
-      postgres:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      redis_prop:
-        condition: service_healthy
+  # companyname:
+  #   container_name: companyname
+  #   hostname: companyname
+  #   restart: on-failure
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - PROPIEDADESALPES_ADDRESS=companyname
+  #     - DATABASE_HOST=postgres
+  #     - REDIS_HOST=redis_prop
+  #     - BROKER_HOST=broker
+  #     - RABBITMQ_HOST=rabbitmq
+  #     - RABBITMQ_PORT=5672
+  #     - RABBITMQ_USER=rabbitmq
+  #     - RABBITMQ_PASS=LosAndes1234
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=LosAndes1234
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_NAME=properties
+  #   ports:
+  #     - "5000:5000"
+  #   networks:
+  #     - pulsar
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     redis_prop:
+  #       condition: service_healthy
 
 #Start zookeeper
   zookeeper:

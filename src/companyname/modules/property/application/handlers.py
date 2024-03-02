@@ -9,7 +9,7 @@ class PropertyDomainHandler(Handler):
     def property_created_handler(event):
         try:
             dispatcher = Dispatcher()
-            dispatcher.publish_command(event, 'property_commands')
+            dispatcher.publish_event(event, 'properties-events')
         except Exception as e:
             logging.error(f"Publish error: {e}")
         
