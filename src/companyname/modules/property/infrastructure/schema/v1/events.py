@@ -11,21 +11,5 @@ class PropertyCreatedPayload(Record):
     currency = String()
     created_at = String()
 
-    def to_json(self):
-        return {
-            "seller": self.seller,
-            "name": self.name,
-            "price": self.price,
-            "currency": self.currency,
-            "created_at": self.created_at
-        }
-    def create_event_payload(self, seller, name, price, currency, created_at):
-        self.seller = seller
-        self.name = name
-        self.price = price
-        self.currency = currency
-        self.created_at = created_at
-        
-
 class PropertyCreatedEvent(IntegrationEvent):
     data = PropertyCreatedPayload()

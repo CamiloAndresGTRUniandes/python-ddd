@@ -25,11 +25,10 @@ class Dispatcher:
             raise ex
 
     def publish_event(self, event, topic):
-        payload = PropertyCreatedPayload()
-        payload.create_event_payload(seller=event.seller,
-            name = event.name,
+        payload = PropertyCreatedPayload(
+            name = str(event.name),
             price=str(event.price),
-            currency=event.currency,
+            currency=str(event.currency),
             created_at=str(datetime.datetime.now())
         )
         integration_event = PropertyCreatedEvent(data= payload)
