@@ -1,5 +1,3 @@
-
-
 import datetime
 import uuid
 from seedwork.domain.entities import RootAggregation
@@ -22,10 +20,16 @@ class Property(RootAggregation):
         self.price = Money(amount=property.price.amount, currency=property.price.currency)
         self.seller = property.seller
         self.created_at = datetime.datetime.now()
-    
+
         self.add_event(PropertyCreated(
-            name=self.name,
-            price=str(self.price.amount),
-            currency=self.price.currency,
-            seller=str(self.seller),
-            created_at=str(datetime.datetime.now)))
+            name = self.format_string(f"{self.name}"),
+            price = self.format_string(f"{self.price.amount}"),
+            currency =self.format_string(f"{self.price.currency}"),
+            seller = self.seller
+        ))
+    def format_string(self, string : str):
+        string = string.replace("(","")
+        string = string.replace(")","")
+        string = string.replace("'","")
+        string = string.replace(",","")
+        return string

@@ -24,7 +24,7 @@ def subscribe_to_events():
             property_dto = ex.data
             print(f'EVENT RECEIVED: {property_dto}')
             command = CreateCacheProperty(
-                name=property_dto,
+                name=property_dto.name,
                 price=property_dto.price,
                 currency=property_dto.currency,
                 seller=property_dto.seller)

@@ -7,10 +7,10 @@ from seedwork.domain.value_objects import Money
 class MapperPropertyDTOJson(AppMap):
     def external_to_dto(self, external: dict) -> PropertyDTO:
         property_dto = PropertyDTO()
-        property_dto.name=external.get('name'),
-        property_dto.price=external.get('price'),
-        property_dto.currency=external.get('currency'),
-        property_dto.seller=external.get('seller')
+        property_dto.name = external.get('name'),
+        property_dto.price = external.get('price'),
+        property_dto.currency = external.get('currency'),
+        property_dto.seller = external.get('seller')
         return property_dto
     
 
@@ -23,8 +23,8 @@ class MapperProperty(RepMap):
 
     def dto_to_entity(self, dto: PropertyDTO) -> Property:
         property_entity = Property()
-        property_entity.name= dto.name
-        property_entity.price= Money(dto.price, dto.currency)
+        property_entity.name = dto.name
+        property_entity.price = Money(dto.price, dto.currency)
         property_entity.seller = dto.seller
         return property_entity
     
@@ -37,7 +37,14 @@ class MapperProperty(RepMap):
         property_dto.seller=entity.seller
     
     def entity_to_external(self, entity: Property) -> dict:
-        return entity.__dict__
+        return {
+            "property_id" : f"{entity.id_property}",
+            "name" : f"{entity.name}",
+            "price" : entity.price.amount,
+            "currency" : entity.price.currency,
+            "created_at" : f"{entity.created_at}",
+            "seller" : f"{entity.seller}"
+        }
     
     def external_to_entity(self, external: dict) -> Property:
         property_entity = Property()

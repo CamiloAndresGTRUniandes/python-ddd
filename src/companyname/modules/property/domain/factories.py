@@ -11,5 +11,5 @@ class PropertiesFactory(Factory):
         if isinstance(obj, Entity):
             return mapper.entity_to_dto(obj)
         else:
-            property: Property = mapper.dto_to_entity(obj)            
+            property: Property = mapper.dto_to_entity(obj)
             return property

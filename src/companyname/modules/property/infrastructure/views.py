@@ -13,10 +13,8 @@ class PropertyView(View):
         properties = list()
         redis = RedisRepository()
         propiedadesRedis = redis.lrange('properties', 0, -1)
-        for propertyDto in propiedadesRedis:
-            fixed = propertyDto.decode('utf-8')
-            fixed = fixed.replace("'", '"')
-            propertyDto = json.loads(fixed)
+        for propertyRedis in propiedadesRedis:
+            propertyDto = json.loads(propertyRedis)
 
             properties.append(PropertyDTO(
                 name = propertyDto['name'],

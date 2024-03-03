@@ -3,7 +3,9 @@
 from dataclasses import dataclass
 from modules.property.infrastructure.redis import RedisRepository
 from seedwork.application.commands import Command, CommandHandler
+from seedwork.domain.value_objects import Money
 import uuid
+import json
 from dataclasses import field
 from modules.property.application.commands.base import CreatePropertyBaseHandler
 from modules.property.application.dto import PropertyDTO
@@ -25,22 +27,17 @@ class CreateCacheProperty(Command):
 
 class CreateCachePropertyHandler(CreatePropertyBaseHandler):
     def handle(self, command: CreateCacheProperty):
-        property_dto = PropertyDTO()
-        property_dto.name=command.name,
-        property_dto.price=command.price,
-        property_dto.currency=command.currency
-        property_dto.seller= command.seller
+        property_dto = Property
+        property_dto.name = command.name
+        property_dto.price = Money(command.price, command.currency)
+        property_dto.seller = command.seller
 
-        ext_property = {
-            "name": command.name,
-            "price": command.price,
-            "currency": command.currency,
-            "seller": command.seller,
-            "created_at": datetime.datetime.now()
-        }
+        map_property = MapperProperty()
+        propertyJson = map_property.entity_to_external(property_dto)
         try:
             redis = RedisRepository()
-            redis.lpush("properties", str(ext_property))
+            property_ext = json.dumps(propertyJson, indent = 4)
+            redis.lpush("properties", property_ext)
         except Exception as e:
             print(e)
         

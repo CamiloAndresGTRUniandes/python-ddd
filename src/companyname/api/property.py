@@ -21,12 +21,11 @@ def create_property():
         property_dto = map_property.external_to_dto(dict_property)
 
         command = CreateProperty(
-            name=property_dto.name,
-            price=property_dto.price,
-            currency=property_dto.currency,
-            seller=property_dto.seller
+            name = property_dto.name,
+            price = property_dto.price,
+            currency = property_dto.currency,
+            seller = property_dto.seller
         )
-
         execute_command(command)
         return Response('{}', status=202, mimetype='application/json')
     except DomainException as e:
@@ -36,9 +35,9 @@ def create_property():
 def get_all_properties():
     map_property = MapperPropertyDTOJson()
     query_result = execute_query(GetAllProperties())
-    resultados = []
+    results = []
     
-    for propiedad in query_result.resultado:
-        resultados.append(map_property.dto_a_externo(propiedad))
+    for propiedad in query_result.result:
+        results.append(map_property.dto_to_external(propiedad))
     
-    return resultados
+    return results

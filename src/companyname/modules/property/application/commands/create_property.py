@@ -1,5 +1,3 @@
-
-
 from dataclasses import dataclass
 from seedwork.application.commands import Command, CommandHandler
 import uuid
@@ -25,14 +23,13 @@ class CreateProperty(Command):
 class CreatePropertyHandler(CreatePropertyBaseHandler):
     def handle(self, command: CreateProperty):
         property_dto = PropertyDTO()
-        property_dto.name=command.name,
-        property_dto.price=command.price,
-        property_dto.currency=command.currency
-        property_dto.seller= command.seller
+        property_dto.name = command.name,
+        property_dto.price = command.price,
+        property_dto.currency = command.currency
+        property_dto.seller = command.seller
             
         property : Property = self.properties_factory.create_object(property_dto, MapperProperty())
         property.create_property(property)
-
         repository = self.reposiroty_factory.create_object(PropertyRepository.__class__)
         UnitOfWorkPort.register_batch(repository.add, property)
         UnitOfWorkPort.commit()

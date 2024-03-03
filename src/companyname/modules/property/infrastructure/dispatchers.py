@@ -26,22 +26,21 @@ class Dispatcher:
 
     def publish_event(self, event, topic):
         payload = PropertyCreatedPayload(
-            name = str(event.name),
-            price=str(event.price),
-            currency=str(event.currency),
-            created_at=str(datetime.datetime.now())
+            name = event.name,
+            price = event.price,
+            currency = event.currency,
+            created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            seller = event.seller
         )
         integration_event = PropertyCreatedEvent(data= payload)
         self._publish_message(integration_event, topic, AvroSchema(PropertyCreatedEvent))
 
     def publish_command(self, command, topic):
         payload = CreatePropertyPayload(
-            seller=command.seller,
-            price=command.price,
-            currency=command.currency,
-            created_at=datetime.datetime.now(),
-            name = command.name
-        )
+            name = str(event.name),
+            price = str(event.price),
+            currency = str(event.currency),
+            created_at = str(datetime.datetime.now()))
         integration_command = CreatePropertyPayload(data=payload)
         self._publish_message(integration_command, topic, AvroSchema(CreatePropertyCommand))
     
