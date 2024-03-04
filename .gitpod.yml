@@ -27,15 +27,20 @@ tasks:
   - name: Pull el Docker compose
     init: gp sync-await images
     command: docker-compose pull
-  - name: Start services
+  - name: Start services db
     init: >
-      docker-compose --profile db up -d &&
-      docker-compose --profile mysql up -d &&
-      docker-compose --profile redis up -d &&
-      gp sync-done compose_db
+      docker-compose --profile db up
+  - name: Start services pulsar
+    init: >
+      docker-compose --profile pulsar up
+  - name: Start services redis
+    init: >
+      docker-compose --profile redis up
   - name: start pulsar
-    init: gp sync-await compose_db
-    command: docker-compose --profile pulsar up -d && gp sync-done pulsar
+    init: >
+      docker-compose --profile pulsar up
+  - init: echo "Configurando el entorno..."
+    command: sleep 40
   - name: update permissions
     init: gp sync-await pulsar
     command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
