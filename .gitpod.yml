@@ -35,7 +35,7 @@ tasks:
       gp sync-done compose_db
   - name: start pulsar
     init: gp sync-await compose_db
-    command: docker-compose --profile pulsar up -d
+    command: docker-compose --profile pulsar up -d && gp sync-done pulsar
   - name: update permissions
     init: gp sync-await pulsar
     command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
