@@ -29,12 +29,15 @@ tasks:
     command: docker-compose pull
   - name: Start services
     init: >
-      docker-compose --profile db up &&
-      docker-compose --profile mysql up &&
-      docker-compose --profile redis up &&
+      docker-compose --profile db up -d &&
+      docker-compose --profile mysql up -d &&
+      docker-compose --profile redis up -d &&
       gp sync-done compose_db
-  - name: update permissions
+  - name: start pulsar
     init: gp sync-await compose_db
+    command: docker-compose --profile pulsar up -d
+  - name: update permissions
+    init: gp sync-await pulsar
     command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
   - name: Start companyname services
     init: gp sync-await update_permissions
