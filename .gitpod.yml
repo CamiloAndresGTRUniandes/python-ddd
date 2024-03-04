@@ -12,7 +12,7 @@ tasks:
       gp sync-done bundle
   - name: Instalar dependencias
     init: gp sync-await bundle
-    command: pip install -r requirements.txt
+    command: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir wheel && pip install -r requirements.txt
   - name: Crear imagenes Docker
     init: > 
       docker build . -f Dockerfile -t companyname/flask &&
@@ -27,6 +27,18 @@ tasks:
   - name: Pull el Docker compose
     init: gp sync-await images
     command: docker-compose pull
+  - name: Start services
+    init: >
+      docker-compose --profile db up &&
+      docker-compose --profile mysql up &&
+      docker-compose --profile redis up &&
+      gp sync-done compose_db
+  - name: update permissions
+    init: gp sync-await compose_db
+    command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
+  - name: Start companyname services
+    init: gp sync-await update_permissions
+    command: flask --app src/companyname/api run --debugger --no-reload
   
 ports:
   - port: 2181

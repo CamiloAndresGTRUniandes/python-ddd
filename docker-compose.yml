@@ -197,7 +197,7 @@ services:
       COMPANYNAME_ADDRESS: companyname
       DATABASE_HOST: postgres
       REDIS_HOST: redis_prop
-      BROKER_HOST: broker
+      BROKER_HOST: 127.0.0.1
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: rabbitmq
