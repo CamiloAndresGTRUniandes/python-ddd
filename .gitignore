@@ -123,7 +123,6 @@ include/
 init.sql
 data/
 bin/
-connectors/
 .idea/
 
 # Spyder project settings
