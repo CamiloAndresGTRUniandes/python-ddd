@@ -13,10 +13,10 @@ tasks:
   - name: Instalar dependencias
     init: gp sync-await bundle
     command: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir wheel && pip install -r requirements.txt && gp sync-done requirements
-  - name: Crear imagenes Docker
-    init: > 
-      docker build . -f Dockerfile -t companyname/flask &&
-      gp sync-done images
+  # - name: Crear imagenes Docker
+  #   init: > 
+  #     docker build . -f Dockerfile -t companyname/flask &&
+  #     gp sync-done images
   - name: Crear folder para datos, clientes, conectores y asigna permisos
     init: > 
       mkdir -p data/bookkeeper && 
@@ -24,9 +24,9 @@ tasks:
       mkdir -p data/mysql && 
       sudo chmod -R 777 data &&
       sudo chmod -R 777 connectors
-  - name: Pull el Docker compose
-    init: gp sync-await images
-    command: docker-compose pull
+  # - name: Pull el Docker compose
+  #   init: gp sync-await images
+  #   command: docker-compose pull
   - name: Start services db
     init: >
       docker-compose --profile db up
