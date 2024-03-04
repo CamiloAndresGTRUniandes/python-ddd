@@ -12,7 +12,7 @@ tasks:
       gp sync-done bundle
   - name: Instalar dependencias
     init: gp sync-await bundle
-    command: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir wheel && pip install -r requirements.txt
+    command: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir wheel && pip install -r requirements.txt && gp sync-done requirements
   - name: Crear imagenes Docker
     init: > 
       docker build . -f Dockerfile -t companyname/flask &&
@@ -39,8 +39,9 @@ tasks:
   - name: start pulsar
     init: >
       docker-compose --profile pulsar up
-  - init: echo "Configurando el entorno..."
-    command: sleep 40 &&  gp sync-done set_timeout
+  - name: Configuranto timeout
+    init: gp sync-await requirements
+    command: sleep 50 &&  gp sync-done set_timeout
   - name: update permissions
     init: gp sync-await set_timeout
     command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
@@ -59,5 +60,6 @@ ports:
     onOpen: ignore
   - port: 6650
     onOpen: ignore
-
+  - port: 5000
+    onOpen: ignore
 
