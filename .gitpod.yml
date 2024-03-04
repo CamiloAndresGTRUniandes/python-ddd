@@ -40,9 +40,9 @@ tasks:
     init: >
       docker-compose --profile pulsar up
   - init: echo "Configurando el entorno..."
-    command: sleep 40
-  - name: update permissions
-    init: >
+    command: sleep 40 && 
+  - name: update permissions gp sync-done set_timeout
+    init: gp sync-await set_timeout
       sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
   - name: Start companyname services
     init: gp sync-await update_permissions
