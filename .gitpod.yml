@@ -39,11 +39,11 @@ tasks:
   - name: start pulsar
     init: >
       docker-compose --profile pulsar up
-  # - name: Configuranto timeout
-  #   init: gp sync-await requirements
-  #   command: sleep 50 &&  gp sync-done set_timeout
-  - name: update permissions
+  - name: Configuranto timeout
     init: gp sync-await requirements
+    command: sleep 50 &&  gp sync-done set_timeout
+  - name: update permissions
+    init: gp sync-await set_timeout
     command: sudo chmod -R 777 data && sudo chmod -R 777 connectors && gp sync-done update_permissions
   - name: Start companyname services
     init: gp sync-await update_permissions
