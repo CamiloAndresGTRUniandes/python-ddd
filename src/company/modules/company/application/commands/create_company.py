@@ -9,7 +9,7 @@ from modules.company.domain.entities import Company
 from modules.company.application.mappers import MapperCompany
 from modules.company.domain.repositories import CompanyRepository
 from seedwork.application.commands import execute_command as command
-from seedwork.infrastructure.unit_of_work import UnitOfWorkPort
+from seedwork.infrastructure.unit_of_work import UnitOfWorkPortCompany
 
 import datetime
 
@@ -31,8 +31,8 @@ class CreateCompanyHandler(CreateCompanyBaseHandler):
         company : Company = self.companies_factory.create_object(company_dto, MapperCompany())
         company.create_company(company)
         repository = self.reposiroty_factory.create_object(CompanyRepository.__class__)
-        UnitOfWorkPort.register_batch(repository.add, company)
-        UnitOfWorkPort.commit()
+        UnitOfWorkPortCompany.register_batch(repository.add, company)
+        UnitOfWorkPortCompany.commit()
 
 @command.register(CreateCompany)
 def execute_command_create_company(command: CreateCompany):

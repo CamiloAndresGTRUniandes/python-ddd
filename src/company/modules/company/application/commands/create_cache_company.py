@@ -14,7 +14,7 @@ from modules.company.domain.entities import Company
 from modules.company.application.mappers import MapperCompany
 from modules.company.domain.repositories import CompanyRepository
 from seedwork.application.commands import execute_command as command
-from seedwork.infrastructure.unit_of_work import UnitOfWorkPort
+from seedwork.infrastructure.unit_of_work import UnitOfWorkPortCompany
 
 import datetime
 

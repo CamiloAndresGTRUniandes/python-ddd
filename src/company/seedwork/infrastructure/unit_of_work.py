@@ -108,7 +108,7 @@ def save_unit_of_work(unit_of_work: UnitOfWork):
         raise Exception('There is not unit of work')
 
 
-class UnitOfWorkPort:
+class UnitOfWorkPortCompany:
 
     @staticmethod
     def commit():
