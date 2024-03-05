@@ -1,8 +1,8 @@
 from config.db import db
-from seedwork.infrastructure.uow import UnitOfWork, Batch
+from seedwork.infrastructure.unit_of_work import UnitOfWork, Batch
 import logging
 
-class UnitOfWorkSQLAlchemy(UnitOfWork):
+class UnitOfWorkSQLAlchemyCompany(UnitOfWork):
 
     def __init__(self):
         self._batches: list[Batch] = list()

@@ -79,31 +79,31 @@ def is_flask():
         return False
 
 def register_unit_of_work(serialized_obj):
-    from config.uow import UnitOfWorkSQLAlchemy
+    from config.unit_of_work import UnitOfWorkSQLAlchemyCompany
     from flask import session
     
 
-    session['uow'] = serialized_obj
+    session['unit_of_work'] = serialized_obj
 
-def flask_uow():
+def flask_unit_of_work():
     from flask import session
-    from config.uow import UnitOfWorkSQLAlchemy
-    if session.get('uow'):
-        return session['uow']
+    from config.unit_of_work import UnitOfWorkSQLAlchemyCompany
+    if session.get('unit_of_work'):
+        return session['unit_of_work']
     else:
-        uow_serialized = pickle.dumps(UnitOfWorkSQLAlchemy())
-        register_unit_of_work(uow_serialized)
-        return uow_serialized
+        unit_of_work_serialized = pickle.dumps(UnitOfWorkSQLAlchemyCompany())
+        register_unit_of_work(unit_of_work_serialized)
+        return unit_of_work_serialized
 
 def unit_of_work() -> UnitOfWork:
     if is_flask():
-        return pickle.loads(flask_uow())
+        return pickle.loads(flask_unit_of_work())
     else:
         raise Exception('There is not unit of work')
 
-def save_unit_of_work(uow: UnitOfWork):
+def save_unit_of_work(unit_of_work: UnitOfWork):
     if is_flask():
-        register_unit_of_work(pickle.dumps(uow))
+        register_unit_of_work(pickle.dumps(unit_of_work))
     else:
         raise Exception('There is not unit of work')
 
@@ -112,29 +112,29 @@ class UnitOfWorkPort:
 
     @staticmethod
     def commit():
-        uow = unit_of_work()
-        uow.commit()
-        save_unit_of_work(uow)
+        unit_of_work = unit_of_work()
+        unit_of_work.commit()
+        save_unit_of_work(unit_of_work)
 
     @staticmethod
     def rollback(savepoint=None):
-        uow = unit_of_work()
-        uow.rollback(savepoint=savepoint)
-        save_unit_of_work(uow)
+        unit_of_work = unit_of_work()
+        unit_of_work.rollback(savepoint=savepoint)
+        save_unit_of_work(unit_of_work)
 
     @staticmethod
     def savepoint():
-        uow = unit_of_work()
-        uow.savepoint()
-        save_unit_of_work(uow)
+        unit_of_work = unit_of_work()
+        unit_of_work.savepoint()
+        save_unit_of_work(unit_of_work)
 
     @staticmethod
     def dar_savepoints():
-        uow = unit_of_work()
-        return uow.savepoints()
+        unit_of_work = unit_of_work()
+        return unit_of_work.savepoints()
 
     @staticmethod
     def register_batch(operation, *args, lock=Lock.PESIMISTA, **kwargs):
-        uow = unit_of_work()
-        uow.register_batch(operation, *args, lock=lock, **kwargs)
-        save_unit_of_work(uow)
+        unit_of_work = unit_of_work()
+        unit_of_work.register_batch(operation, *args, lock=lock, **kwargs)
+        save_unit_of_work(unit_of_work)
