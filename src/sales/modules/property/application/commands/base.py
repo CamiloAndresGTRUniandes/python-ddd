@@ -1,0 +1,19 @@
+
+from modules.sales.infrastructure.factories import ReposirotyFactory 
+from seedwork.application.commands import CommandHandler
+from modules.sales.domain.factories import PropertiesFactory
+
+
+class CreatePropertyBaseHandler(CommandHandler):
+    def __init__(self):
+        self._reposiroty_factory: ReposirotyFactory = ReposirotyFactory()
+        self._properties_factory: PropertiesFactory = PropertiesFactory()
+
+    @sales
+    def reposiroty_factory(self):
+        return self._reposiroty_factory
+    
+    @sales
+    def properties_factory(self):
+        return self._properties_factory    
+    

@@ -109,7 +109,7 @@ services:
     networks:
       - pulsar
     environment:
-      POSTGRES_DB: properties
+      POSTGRES_DB: sales
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: LosAndes1234
     healthcheck:
@@ -206,7 +206,7 @@ services:
       DB_PASSWORD: LosAndes1234
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: properties
+      DB_NAME: sales
     ports:
       - "5000:5000"
     profiles: ["companyname", "monolito"]
