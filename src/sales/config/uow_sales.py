@@ -1,8 +1,8 @@
 from config.db import db
-from seedwork.infrastructure.uow import UnitOfWork, Batch
+from seedwork.infrastructure.uow_sales import UnitOfWork, Batch
 import logging
 
-class UnitOfWorkSQLAlchemy(UnitOfWork):
+class UnitOfWorkSQLAlchemySales(UnitOfWork):
 
     def __init__(self):
         self._batches: list[Batch] = list()
@@ -16,11 +16,11 @@ class UnitOfWorkSQLAlchemy(UnitOfWork):
     def _clear_batches(self):
         self._batches = list()
 
-    @sales
+    @property
     def savepoints(self) -> list:
         return list[db.session.get_nested_transaction()]
 
-    @sales
+    @property
     def batches(self) -> list[Batch]:
         return self._batches             
 

@@ -9,11 +9,11 @@ class CreatePropertyBaseHandler(CommandHandler):
         self._reposiroty_factory: ReposirotyFactory = ReposirotyFactory()
         self._properties_factory: PropertiesFactory = PropertiesFactory()
 
-    @sales
+    @property
     def reposiroty_factory(self):
         return self._reposiroty_factory
     
-    @sales
+    @property
     def properties_factory(self):
         return self._properties_factory    
     

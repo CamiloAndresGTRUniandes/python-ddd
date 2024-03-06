@@ -15,7 +15,7 @@ class DomainEvent():
     def next_id(self) -> uuid.UUID:
         return uuid.uuid4()
 
-    @sales
+    @property
     def id(self):
         return self._id
 

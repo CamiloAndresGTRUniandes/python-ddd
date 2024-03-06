@@ -8,10 +8,10 @@ class PropertyQueryBaseHandler(QueryHandler):
         self._view_factory: ViewFactory = ViewFactory()
         self._properties_factory: PropertiesFactory = PropertiesFactory()
 
-    @sales
+    @property
     def view_factory(self):
         return self._view_factory
     
-    @sales
+    @property
     def properties_factory(self):
         return self._properties_factory    

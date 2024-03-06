@@ -9,7 +9,7 @@ from modules.sales.domain.entities import Sales
 from modules.sales.application.mappers import MapperProperty
 from modules.sales.domain.repositories import PropertyRepository
 from seedwork.application.commands import execute_command as command
-from seedwork.infrastructure.uow import UnitOfWorkPort
+from seedwork.infrastructure.uow_sales import UnitOfWorkPortSales
 
 import datetime
 
@@ -31,8 +31,8 @@ class CreatePropertyHandler(CreatePropertyBaseHandler):
         sales : Sales = self.properties_factory.create_object(property_dto, MapperProperty())
         sales.create_property(sales)
         repository = self.reposiroty_factory.create_object(PropertyRepository.__class__)
-        UnitOfWorkPort.register_batch(repository.add, sales)
-        UnitOfWorkPort.commit()
+        UnitOfWorkPortSales.register_batch(repository.add, sales)
+        UnitOfWorkPortSales.commit()
 
 @command.register(CreateProperty)
 def execute_command_create_property(command: CreateProperty):
